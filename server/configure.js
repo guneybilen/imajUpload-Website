@@ -9,14 +9,15 @@ var path = require('path'),
     errorHandler = require('errorhandler'),
     moment = require('moment'),
     multer = require('multer');
+fs = require('fs');
 
-module.exports = function(app) {
-	app.engine('handlebars', exphbs.create({
+module.exports = function (app) {
+    app.engine('handlebars', exphbs.create({
         defaultLayout: 'main',
         layoutsDir: app.get('views') + '/layouts',
         partialsDir: [app.get('views') + '/partials'],
         helpers: {
-            timeago: function(timestamp) {
+            timeago: function (timestamp) {
                 console.log(timestamp);
                 return moment(timestamp).startOf('minute').fromNow();
             }
@@ -31,35 +32,48 @@ module.exports = function(app) {
 
 
 
-	// app.use(bodyParser()); //Now deprecated
-	// You now need to call the methods separately
+    // app.use(bodyParser()); //Now deprecated
+    // You now need to call the methods separately
 
-	// If you're still getting a warning with urlencoded you need to use 'extended' option
-  // https://stackoverflow.com/questions/24330014/bodyparser-is-deprecated-express-4
-	app.use(bodyParser.urlencoded({
-	  extended: true
-	}));
-	app.use(bodyParser.json());
-
-
+    // If you're still getting a warning with urlencoded you need to use 'extended' option
+    // https://stackoverflow.com/questions/24330014/bodyparser-is-deprecated-express-4
+    app.use(bodyParser.urlencoded({
+        extended: true
+    }));
+    app.use(bodyParser.json());
 
 
 
 
 
 
-	app.use(multer({ dest: path.join(__dirname, 'public/upload/temp')}));
 
-	app.use(methodOverride());
-	app.use(cookieParser('some-secret-value-here'));
-	routes.initialize(app);
-	
-	app.use('/public/', express.static(path.join(__dirname, '../public')));
 
-	if ('development' === app.get('env')) {
-	   app.use(errorHandler());
-	}
+    app.use(multer({ dest: path.join(__dirname, 'public/upload/temp') }));
 
-  	return app;
+    app.use(methodOverride());
+    app.use(cookieParser('some-secret-value-here'));
+    routes.initialize(app);
+
+    //	Ensure	the	temporary	upload	folders	exist
+    // uncomment when deploying to cloud	
+    /* fs.mkdir(path.join(__dirname, '../public/upload'),
+        (err) => {
+            console.log(err);
+            fs.mkdir(path.join(__dirname,
+                '../public/upload/temp'),
+                (err) => {
+                    console.log(err);
+                });
+        });
+     */
+
+    app.use('/public/', express.static(path.join(__dirname, '../public')));
+
+    if ('development' === app.get('env')) {
+        app.use(errorHandler());
+    }
+
+    return app;
 };
 
