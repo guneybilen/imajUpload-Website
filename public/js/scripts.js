@@ -1,22 +1,27 @@
-$(function(){
+$(function () {
+
+    $('input:file').on("change", function () {
+        $('#image-upload-btn').prop('disabled', !$(this).val());
+    });
+
     $('#post-comment').hide();
-    $('#btn-comment').on('click', function(event) {
+    $('#btn-comment').on('click', function (event) {
         event.preventDefault();
 
         $('#post-comment').slideDown();
     });
 
-    $('#btn-like').on('click', function(event) {
+    $('#btn-like').on('click', function (event) {
         event.preventDefault();
 
         var imgId = $(this).data('id');
 
-        $.post('/images/' + imgId + '/like').done(function(data) {
+        $.post('/images/' + imgId + '/like').done(function (data) {
             $('.likes-count').text(data.likes);
         });
     });
 
-    $('#btn-delete').on('click', function(event) {
+    $('#btn-delete').on('click', function (event) {
         event.preventDefault();
 
         var $this = $(this);
@@ -29,11 +34,12 @@ $(function(){
             $.ajax({
                 url: '/images/' + imgId,
                 type: 'DELETE'
-            }).done(function(result) {
+            }).done(function (result) {
                 if (result) {
                     $this.removeClass('btn-danger').addClass('btn-success');
                     $this.find('i').removeClass('fa-times').addClass('fa-check');
                     $this.append('<span> Deleted!</span>');
+                    window.location.href = '/';
                 }
             });
         }

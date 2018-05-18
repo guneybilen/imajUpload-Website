@@ -6,11 +6,12 @@
   "dependencies": {
     "MD5": "^1.2.2",
     "async": "^1.0.0",
+    "bluebird": "^3.5.1",
     "body-parser": "^1.12.3",
     "cookie-parser": "^1.3.4",
     "errorhandler": "^1.3.5",
     "express": "^4.12.3",
-    "express-handlebars": "^2.0.1",
+    "express-handlebars": "^3.0.0",
     "handlebars": "^4.0.11",
     "method-override": "^2.3.2",
     "moment": "^2.10.3",
@@ -21,7 +22,7 @@
   "devDependencies": {
     "chai": "^1.9.1",
     "gulp": "^4.0.0",
-    "gulp-mocha": "^4.3.1",
+    "gulp-mocha": "^5.0.0",
     "proxyquire": "^1.0.1",
     "sinon": "^1.10.2",
     "sinon-chai": "^2.5.0"
